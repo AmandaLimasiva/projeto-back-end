@@ -93,11 +93,27 @@ function mostraPorta (){
 
     response.json(livros) //Lista é enviada atualizada
  }
+
+ //DELETE
+
+ function deletaLvro(request, response){
+    function todosLivrosMenosEle(livro){
+        if(livro.id !== request.params.id){
+            return livro
+        }
+    }
+
+    const livrosQueFicam = livros.filter(todosLivrosMenosEle) //Filtro - Exibe todos, menos o que foi deletado
+
+
+    response.json(livrosQueFicam)
+ }
  
 
 app.use(router.get('/livros', mostraLivros)) // Configuração da segunda parte da rota //GET
 app.use(router.post('/livros',criaLivro)) //Insere um novo livro via post //POST
 app.use(router.patch('/livros/:id',alteraLivro)) //Altera o livro //PATCH
+app.use(router.delete('/livros/:id',deletaLvro )) //Deleta o livro //DELETE
 app.listen(porta, mostraPorta) // Servidor ouvindo a porta 3333
 //mostraPorta()
 
