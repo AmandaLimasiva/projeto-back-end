@@ -3,7 +3,8 @@
 //const express = require("express"); //Iniciando o Express
 import express from "express";
 const router = express.Router(); //Configurando a primeira parte da 
-const cors = require('cors') //Trazendo o pacote Cors que permite consumir a API no front-end
+//const cors = require('cors') //Trazendo o pacote Cors que permite consumir a API no front-end
+import cors from 'cors' ////Trazendo o pacote Cors que permite consumir a API no front-end | Ajustando forma de importar o cors
 //import { v4 as uuidv4 } from 'uuid'; //Biblioteca para criar id
 //const conectaBancoDeDados = require('./bancoDeDados.js')
 import conectaBancoDeDados from './bancoDeDados.js'
