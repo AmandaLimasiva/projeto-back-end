@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-require('dotenv').config() //Importando o .env
+const mongoose = require('mongoose');
+require('dotenv').config(); // Garante que o .env está sendo carregado
 
 
 

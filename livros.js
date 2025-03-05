@@ -15,8 +15,8 @@ import Livro from './livroModel.js'
 conectaBancoDeDados()
 
 const app = express() //Iniciando o app
-app.use(express.json())
-app.use(cors())
+app.use(express.json()) //usando o express
+app.use(cors()) //usando o cors
 const porta = 3333  //Criando a porta
 
 //Criando array inicial de livros 
