@@ -1,14 +1,25 @@
+
+//Importações
 //const express = require("express"); //Iniciando o Express
 import express from "express";
-const router = express.Router(); //Configurando a primeira parte da rota
-import { v4 as uuidv4 } from 'uuid'; //Biblioteca para criar id
+const router = express.Router(); //Configurando a primeira parte da 
+const cors = require('cors') //Trazendo o pacote Cors que permite consumir a API no front-end
+//import { v4 as uuidv4 } from 'uuid'; //Biblioteca para criar id
+//const conectaBancoDeDados = require('./bancoDeDados.js')
+import conectaBancoDeDados from './bancoDeDados.js'
+//const Livro = require('./livroModel.js')
+import Livro from './livroModel.js'
 
+
+conectaBancoDeDados()
 
 const app = express() //Iniciando o app
 app.use(express.json())
+app.use(cors())
 const porta = 3333  //Criando a porta
 
-//Criando array inicial de livros
+//Criando array inicial de livros 
+/*
 const livros = [
     {
         id:'1',
@@ -39,20 +50,28 @@ const livros = [
         resenha: 'Amo Astronomia'
     }
 ]
-
+*/
 
 //Porta
 function mostraPorta (){
     console.log("Servidor criado e rodando na porta", porta)
 }
 
+//Agora estou usando o javaScript assincrono 
 //GET
- function mostraLivros(request, response){
-    response.json(livros)
+ async function mostraLivros(request, response){
+    try{
+        const livrosGetsDoBanco = await Livro.find() //Abstração do BD
+        response.json(livrosGetsDoBanco)
+    }catch (erro){
+        console.log(erro)
+    }
+    //response.json(livros)
  }
 
- //POST
- function criaLivro(request, response){
+ //POST ANTIGO
+ /*
+function criaLivro(request, response){
     const novoLivro = {
         id: uuidv4(),
         nome: request.body.nome,
@@ -64,8 +83,28 @@ function mostraPorta (){
 
     response.json(livros)
  }
+*/
 
- //PATCH
+async function criaLivro(request, response){
+    const novoLivro = new Livro ({
+        nome: request.body.nome,
+        quantPag:request.body.quantPag,
+        imagem:request.body.imagem,
+        resenha:request.body.resenha
+    })
+    //livros.push(novoLivro)
+    //response.json(livros)
+
+    try{
+        const livrCriado = await novoLivro.save() //POST no banco MongoDB
+        response.status(201).json(livrCriado)
+    }catch (erro){
+        console.log(erro)
+    }
+ }
+
+ //PATCH ANTIGO
+ /*
  function alteraLivro(request, response){
     function localizaLivro(livro){ //encontra os livros pelo Id
         if(livro.id === request.params.id){
@@ -93,20 +132,57 @@ function mostraPorta (){
 
     response.json(livros) //Lista é enviada atualizada
  }
+ */
 
- //DELETE
+ async function alteraLivro(request, response){
+ 
+    try{
+        const livroEncontrado = await Livro.findById(request.params.id)
 
+        if(request.body.nome){
+            livroEncontrado.nome = request.body.nome
+        }
+    
+        if(request.body.quantPag){
+            livroEncontrado.quantPag = request.body.quantPag
+        }
+    
+        if(request.body.imagem){
+            livroEncontrado.imagem = request.body.imagem
+        }
+    
+        if(request.body.resenha){
+            livroEncontrado.resenha = request.body.resenha
+        }
+
+        const livroAtualizadaNoBD = await livroEncontrado.save()
+        response.json(livroAtualizadaNoBD) //Livro atualizado
+    }  
+    catch (erro){
+        console.log(erro)
+    }
+} 
+
+//DELETE ANTIGO
+/*
  function deletaLvro(request, response){
     function todosLivrosMenosEle(livro){
         if(livro.id !== request.params.id){
             return livro
         }
     }
-
     const livrosQueFicam = livros.filter(todosLivrosMenosEle) //Filtro - Exibe todos, menos o que foi deletado
-
-
     response.json(livrosQueFicam)
+ }
+*/ 
+async  function deletaLvro(request, response){
+   try{
+        await Livro.findByIdAndDelete(request.params.id)
+        response.json({mensagem: 'Livro deletado com sucesso!'})
+   }catch(erro){
+        console.log(erro)
+   }
+
  }
  
 
