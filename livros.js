@@ -14,6 +14,7 @@ import Livro from './livroModel.js'
 
 conectaBancoDeDados()
 
+
 const app = express() //Iniciando o app
 app.use(express.json()) //usando o express
 app.use(cors()) //usando o cors
@@ -91,7 +92,8 @@ async function criaLivro(request, response){
         nome: request.body.nome,
         quantPag:request.body.quantPag,
         imagem:request.body.imagem,
-        resenha:request.body.resenha
+        resenha:request.body.resenha,
+        categoria: request.body.categoria
     })
     //livros.push(novoLivro)
     //response.json(livros)
