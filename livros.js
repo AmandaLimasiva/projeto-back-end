@@ -93,10 +93,15 @@ async function criaLivro(request, response){
         quantPag:request.body.quantPag,
         imagem:request.body.imagem,
         resenha:request.body.resenha,
-        categoria: request.body.categoria
+        categoria: request.body.categoria,
+        autor: request.body.autor, //n esquecer aqui
+        status:request.body.status,
+        dataInicio: request.body.dataInicio, //n esquecer aqui
+        dataTermino:request.body.dataTermino,
+        notaLeitura:request.body.notaLeitura
     })
     //livros.push(novoLivro)
-    //response.json(livros)
+    //response.json(livros) 
 
     try{
         const livrCriado = await novoLivro.save() //POST no banco MongoDB
@@ -136,7 +141,6 @@ async function criaLivro(request, response){
     response.json(livros) //Lista é enviada atualizada
  }
  */
-
  async function alteraLivro(request, response){
  
     try{

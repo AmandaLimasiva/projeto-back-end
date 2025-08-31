@@ -5,7 +5,7 @@ require('dotenv').config(); // Garante que o .env está sendo carregado
 
 async function conectaBancoDeDados() {
 
-    try {como
+    try {
 
         console.log('Conexão com o banco de dados iniciou')
 

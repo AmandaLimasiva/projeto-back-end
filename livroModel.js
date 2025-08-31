@@ -2,12 +2,16 @@ const mongoose = require('mongoose')
 
 
 const LivroShema = new mongoose.Schema({
-    nome: {
+    nome:{
+        type: String,
+        required: true
+    },
+    autor:{
         type: String,
         required: true
     },
     quantPag:{
-        type: String,
+        type: Number,
         required: true
     },
     imagem:{
@@ -21,6 +25,18 @@ const LivroShema = new mongoose.Schema({
     categoria:{
         type: String,
         required: true
+    },
+     dataInicio:{
+        type: String,
+        required: true
+    },
+    dataTermino:{
+        type: String,
+        required: true
+    },
+    notaLeitura:{
+        type: Number,
+        required: false
     }
    
 })
